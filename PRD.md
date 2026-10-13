@@ -4,7 +4,7 @@
 | :--- | :--- |
 | **Feature Name** | Module 5 – Canteen Pre-Order & Checkout |
 | **Author / PM Role** | Technical Lead PM (Campus Life Web App) |
-| **Status** | Ready for Engineering Review |
+| **Status** | draft |
 | **Target Release** | Sprint 5.1 |
 
 ---
