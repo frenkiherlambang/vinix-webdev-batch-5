@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to Vinix Canteen to pre-order food, scan QRIS payments, and skip the line between classes.">
+  <title>Student Login | Vinix Canteen Pre-Order</title>
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #0a0f1d;
+      --bg-surface: rgba(18, 26, 47, 0.75);
+      --bg-card: rgba(26, 36, 64, 0.65);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(245, 158, 11, 0.65);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --primary-glow: rgba(245, 158, 11, 0.25);
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.2);
+      --danger: #ef4444;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      
+      --shadow-ambient: 0 20px 45px -15px rgba(0, 0, 0, 0.7);
+      --shadow-glow: 0 0 35px -5px rgba(245, 158, 11, 0.3);
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Ambient dynamic background lighting */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.45;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+
+    .bg-orb-1 {
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, #f59e0b 0%, rgba(245, 158, 11, 0) 70%);
+      top: -120px;
+      left: -120px;
+    }
+
+    .bg-orb-2 {
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, #059669 0%, rgba(5, 150, 105, 0) 70%);
+      bottom: -150px;
+      right: -100px;
+      animation-delay: -7s;
+    }
+
+    .bg-orb-3 {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, #6366f1 0%, rgba(99, 102, 241, 0) 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.2;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -40px) scale(1.08); }
+      100% { transform: translate(-30px, 30px) scale(0.95); }
+    }
+
+    /* Toast notification */
+    .toast-container {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: rgba(22, 30, 52, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.875rem 1.25rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: var(--transition);
+      pointer-events: auto;
+      max-width: 360px;
+      font-size: 0.9rem;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .toast-success {
+      border-left: 4px solid var(--accent);
+    }
+
+    .toast-error {
+      border-left: 4px solid var(--danger);
+    }
+
+    /* Main Container */
+    .auth-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1040px;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      background: var(--bg-surface);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-ambient);
+      overflow: hidden;
+    }
+
+    /* Left Promo Panel */
+    .promo-panel {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(145deg, rgba(30, 42, 74, 0.45) 0%, rgba(13, 20, 38, 0.8) 100%);
+      position: relative;
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+
+    .brand-logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0a0f1d;
+      font-weight: 800;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+
+    .brand-info h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    .brand-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .promo-content {
+      margin: 2.5rem 0;
+    }
+
+    .promo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    .promo-pill svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .promo-title {
+      font-size: 2.15rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .promo-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    /* Live Features Showcase List */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .feature-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-md);
+      padding: 0.875rem 1rem;
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateX(4px);
+    }
+
+    .feature-icon-wrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon-yellow {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    .feature-icon-green {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+    }
+
+    .feature-text h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .feature-text p {
+      font-size: 0.775rem;
+      color: var(--text-dim);
+    }
+
+    .promo-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.15); }
+    }
+
+    /* Right Form Panel */
+    .form-panel {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-header {
+      margin-bottom: 1.75rem;
+    }
+
+    h1.form-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+    }
+
+    .form-subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Quick Demo Autofill Banner */
+    .quick-demo-box {
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px dashed rgba(245, 158, 11, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .quick-demo-info {
+      font-size: 0.8rem;
+      color: #fbbf24;
+    }
+
+    .quick-demo-btn {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .quick-demo-btn:hover {
+      background: #f59e0b;
+      color: #0a0f1d;
+    }
+
+    /* Campus SSO Button */
+    .sso-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 1.5rem;
+    }
+
+    .sso-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .sso-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-subtle);
+    }
+
+    /* Form Fields */
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    label {
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .forgot-link {
+      font-size: 0.8rem;
+      color: #f59e0b;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .forgot-link:hover {
+      color: #fbbf24;
+      text-decoration: underline;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      color: var(--text-dim);
+      pointer-events: none;
+      width: 18px;
+      height: 18px;
+      transition: var(--transition);
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(14, 21, 38, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem 0.85rem 2.75rem;
+      color: var(--text-main);
+      font-size: 0.925rem;
+      font-family: inherit;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-input.has-action {
+      padding-right: 2.75rem;
+    }
+
+    .form-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      background: rgba(18, 27, 49, 0.95);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    }
+
+    .form-input:focus ~ .input-icon {
+      color: var(--primary);
+    }
+
+    .form-input.error {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 0.75rem;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .password-toggle-btn:hover {
+      color: var(--text-main);
+    }
+
+    .error-text {
+      color: var(--danger);
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: none;
+      margin-top: 0.25rem;
+    }
+
+    .error-text.visible {
+      display: block;
+    }
+
+    /* Remember me & terms */
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .custom-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(14, 21, 38, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    input[type="checkbox"]:checked + .custom-checkbox {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .checkbox-checkmark {
+      color: #0a0f1d;
+      font-size: 0.75rem;
+      font-weight: 800;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: var(--transition);
+    }
+
+    input[type="checkbox"]:checked + .custom-checkbox .checkbox-checkmark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .checkbox-label {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: #0a0f1d;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.625rem;
+      box-shadow: 0 4px 20px var(--primary-glow);
+      transition: var(--transition);
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+      filter: brightness(1.05);
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(10, 15, 29, 0.3);
+      border-top-color: #0a0f1d;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .submit-btn.loading .btn-text {
+      display: none;
+    }
+
+    .submit-btn.loading .spinner {
+      display: inline-block;
+    }
+
+    /* Form Footer */
+    .form-footer {
+      margin-top: 1.75rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .form-footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 0.25rem;
+      transition: var(--transition);
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .auth-wrapper {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+      }
+
+      .promo-panel {
+        display: none;
+      }
+
+      .form-panel {
+        padding: 2.25rem 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient light blobs -->
+  <div class="bg-mesh" aria-hidden="true">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+  </div>
+
+  <!-- Toast Notification Center -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Login Card Container -->
+  <main class="auth-wrapper" id="auth-main-container">
+    
+    <!-- Left Showcase Section -->
+    <aside class="promo-panel" aria-label="Vinix Canteen Perks">
+      <div class="brand-header">
+        <div class="brand-logo-icon" aria-hidden="true">VC</div>
+        <div class="brand-info">
+          <h2>Vinix Canteen</h2>
+          <p>Campus Pre-Order System</p>
+        </div>
+      </div>
+
+      <div class="promo-content">
+        <div class="promo-pill">
+          <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clip-rule="evenodd"></path>
+          </svg>
+          15-Minute Class Break Ready
+        </div>
+
+        <h2 class="promo-title">Never wait in cash queues again.</h2>
+        <p class="promo-subtitle">
+          Pre-order meals from your phone, pay instantly with dynamic QRIS, and grab your tray at the counter in under 3 minutes.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature-card">
+            <div class="feature-icon-wrapper feature-icon-yellow" aria-hidden="true">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h4>Instant QRIS Settlement</h4>
+              <p>GoPay, OVO, Dana & ShopeePay verified in 1.5s</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper feature-icon-green" aria-hidden="true">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h4>3-Digit Counter Pickup Token</h4>
+              <p>Flash your screen token (e.g. #042) to collect food</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="promo-footer">
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span>Canteen Live: 14 Stalls Open</span>
+        </div>
+        <span>Sprint 5.1</span>
+      </div>
+    </aside>
+
+    <!-- Right Login Form Section -->
+    <section class="form-panel" aria-label="Student Login Form">
+      <div class="form-header">
+        <h1 class="form-title" id="form-heading">Welcome Back</h1>
+        <p class="form-subtitle">Enter your Student ID or campus email to access your account.</p>
+      </div>
+
+      <!-- Quick Demo Credentials Helper -->
+      <div class="quick-demo-box" id="demo-credentials-box">
+        <div class="quick-demo-info">
+          <strong>Demo User:</strong> Maya (ID: <code>std_2024_9811</code>)
+        </div>
+        <button type="button" class="quick-demo-btn" id="autofill-demo-btn" aria-label="Autofill demo student credentials">
+          Autofill Demo
+        </button>
+      </div>
+
+      <!-- Campus SSO Button -->
+      <button type="button" class="sso-btn" id="campus-sso-btn" aria-label="Log in with Campus Single Sign-On">
+        <svg class="sso-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3" />
+        </svg>
+        <span>Continue with Campus SSO</span>
+      </button>
+
+      <div class="divider" aria-hidden="true">or sign in with ID</div>
+
+      <!-- Form -->
+      <form class="auth-form" id="login-form" novalidate>
+        <!-- Student Identifier Input -->
+        <div class="form-group">
+          <div class="form-label-row">
+            <label for="student-identifier">Student ID or Campus Email</label>
+          </div>
+          <div class="input-wrapper">
+            <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <input 
+              type="text" 
+              id="student-identifier" 
+              name="identifier" 
+              class="form-input" 
+              placeholder="e.g. std_2024_9811 or maya@campus.edu" 
+              autocomplete="username"
+              required
+            >
+          </div>
+          <span class="error-text" id="identifier-error">Please enter a valid Student ID or email</span>
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+          <div class="form-label-row">
+            <label for="student-password">Password</label>
+            <a href="#forgot" class="forgot-link" id="forgot-password-link">Forgot password?</a>
+          </div>
+          <div class="input-wrapper">
+            <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <input 
+              type="password" 
+              id="student-password" 
+              name="password" 
+              class="form-input has-action" 
+              placeholder="••••••••••••" 
+              autocomplete="current-password"
+              required
+            >
+            <button 
+              type="button" 
+              class="password-toggle-btn" 
+              id="toggle-password-btn" 
+              aria-label="Toggle password visibility"
+            >
+              <svg id="eye-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
+          </div>
+          <span class="error-text" id="password-error">Password must be at least 6 characters</span>
+        </div>
+
+        <!-- Remember Me Checkbox -->
+        <label class="checkbox-row" for="remember-me-checkbox">
+          <input type="checkbox" id="remember-me-checkbox" name="remember">
+          <span class="custom-checkbox" aria-hidden="true">
+            <span class="checkbox-checkmark">✓</span>
+          </span>
+          <span class="checkbox-label">Keep me signed in on this device</span>
+        </label>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" id="login-submit-btn">
+          <span class="btn-text">Sign In to Canteen</span>
+          <div class="spinner" aria-hidden="true"></div>
+        </button>
+      </form>
+
+      <div class="form-footer">
+        <span>New to Vinix Canteen?</span>
+        <a href="#register" id="register-link">Register Student Account</a>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Elements
+    const loginForm = document.getElementById('login-form');
+    const identifierInput = document.getElementById('student-identifier');
+    const passwordInput = document.getElementById('student-password');
+    const togglePasswordBtn = document.getElementById('toggle-password-btn');
+    const eyeIcon = document.getElementById('eye-icon');
+    const submitBtn = document.getElementById('login-submit-btn');
+    const autofillDemoBtn = document.getElementById('autofill-demo-btn');
+    const campusSsoBtn = document.getElementById('campus-sso-btn');
+    const toastContainer = document.getElementById('toast-container');
+    const identifierError = document.getElementById('identifier-error');
+    const passwordError = document.getElementById('password-error');
+
+    // Toast helper
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      
+      const iconSvg = type === 'success' 
+        ? `<svg class="toast-icon" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`
+        : `<svg class="toast-icon" fill="none" stroke="#ef4444" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+
+      toast.innerHTML = `${iconSvg}<span>${message}</span>`;
+      toastContainer.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // Toggle Password Visibility
+    let isPasswordVisible = false;
+    togglePasswordBtn.addEventListener('click', () => {
+      isPasswordVisible = !isPasswordVisible;
+      passwordInput.type = isPasswordVisible ? 'text' : 'password';
+      
+      eyeIcon.innerHTML = isPasswordVisible
+        ? `<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />`
+        : `<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+    });
+
+    // Quick Autofill Demo User
+    autofillDemoBtn.addEventListener('click', () => {
+      identifierInput.value = 'std_2024_9811';
+      passwordInput.value = 'mayaPass2024';
+      clearErrors();
+      showToast('Autofilled demo student credentials for Maya!', 'success');
+      identifierInput.focus();
+    });
+
+    // Campus SSO Simulation
+    campusSsoBtn.addEventListener('click', () => {
+      showToast('Redirecting to Campus Single Sign-On portal...', 'success');
+    });
+
+    // Validation Helpers
+    function clearErrors() {
+      identifierInput.classList.remove('error');
+      passwordInput.classList.remove('error');
+      identifierError.classList.remove('visible');
+      passwordError.classList.remove('visible');
+    }
+
+    identifierInput.addEventListener('input', () => {
+      identifierInput.classList.remove('error');
+      identifierError.classList.remove('visible');
+    });
+
+    passwordInput.addEventListener('input', () => {
+      passwordInput.classList.remove('error');
+      passwordError.classList.remove('visible');
+    });
+
+    // Handle Form Submit
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const identifier = identifierInput.value.trim();
+      const password = passwordInput.value;
+      let hasError = false;
+
+      if (!identifier) {
+        identifierInput.classList.add('error');
+        identifierError.textContent = 'Please enter your Student ID or campus email';
+        identifierError.classList.add('visible');
+        hasError = true;
+      }
+
+      if (!password || password.length < 6) {
+        passwordInput.classList.add('error');
+        passwordError.textContent = 'Password must be at least 6 characters';
+        passwordError.classList.add('visible');
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Simulate Authentication API Call
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+
+        showToast(`Welcome back, ${identifier}! Loading your canteen tray...`, 'success');
+        
+        // Mock session storage
+        sessionStorage.setItem('vinix_user', JSON.stringify({
+          student_id: identifier,
+          authenticated_at: new Date().toISOString()
+        }));
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
