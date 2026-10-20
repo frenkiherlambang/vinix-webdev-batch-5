@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Review your food tray and pre-order checkout at Warung Bu Sri on Vinix Canteen.">
+  <title>Your Tray · Warung Bu Sri · Vinix Canteen</title>
+
+  <!-- Google Fonts: Geist, Geist Mono, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ground: #E9EDF1;
+      --surface: #FFFFFF;
+      --surface-2: #F3F6F8;
+      --ink: #11151B;
+      --ink-2: #39424D;
+      --muted: #64707D;
+      --line: #E2E7EC;
+      --accent: #0B6B4D;
+      --accent-soft: #D4F2E6;
+      --lime: #D8F25A;
+      --lime-dark: #5C6B14;
+      --amber: #C47410;
+      --amber-bg: #FDF3E7;
+      --amber-border: #F7DFBA;
+      --amber-icon-bg: #FCEBD2;
+      --amber-text: #7A4A08;
+      --amber-text-muted: #96631A;
+      --danger: #CF4437;
+
+      --font-head: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-data: 'Geist Mono', monospace;
+
+      --shadow-sm: 0 1px 3px rgba(11, 18, 32, 0.06);
+      --shadow-tab: 0 6px 18px rgba(11, 18, 32, 0.09);
+      --shadow-card: 0 1px 2px rgba(11, 18, 32, 0.04);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background-color: var(--ground);
+      color: var(--ink);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .viewport {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+    }
+
+    @media (min-width: 481px) {
+      .viewport {
+        padding: 24px 16px;
+      }
+    }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 390px;
+      min-height: 100vh;
+      background-color: var(--ground);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    @media (min-width: 481px) {
+      .phone-frame {
+        min-height: 844px;
+        border-radius: 44px;
+        box-shadow: 0 25px 60px rgba(17, 21, 27, 0.16), 0 0 0 1px rgba(17, 21, 27, 0.06);
+        overflow: hidden;
+      }
+    }
+
+    /* Status Bar */
+    .status-bar {
+      width: 100%;
+      height: 44px;
+      padding: 10px 24px 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .status-time {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.2px;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ink);
+    }
+
+    .status-icons svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    /* Screen Header */
+    .app-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 20px 14px 20px;
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      min-height: 42px;
+      border-radius: 9999px;
+      background: var(--surface);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .icon-btn:hover {
+      background-color: var(--surface-2);
+    }
+
+    .icon-btn:active {
+      transform: scale(0.94);
+    }
+
+    .icon-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .screen-title {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .screen-subtitle {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      padding: 0 20px 108px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Stock Alert Banner */
+    .alert-banner {
+      width: 100%;
+      background: var(--amber-bg);
+      border: 1px solid var(--amber-border);
+      border-radius: 18px;
+      padding: 13px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.25s ease;
+      overflow: hidden;
+    }
+
+    .alert-banner.hidden {
+      opacity: 0;
+      transform: translateY(-8px);
+      max-height: 0;
+      padding: 0 14px;
+      margin: 0;
+      border: none;
+      pointer-events: none;
+    }
+
+    .alert-icon-wrap {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 11px;
+      background: var(--amber-icon-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .alert-icon-wrap svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .alert-text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .alert-title {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--amber-text);
+      line-height: 1.3;
+    }
+
+    .alert-desc {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--amber-text-muted);
+      line-height: 1.35;
+    }
+
+    /* Tray Items Container Card */
+    .tray-items-card {
+      background: var(--surface);
+      border-radius: 22px;
+      padding: 6px 18px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tray-item-row {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px 0;
+      position: relative;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tray-item-row:not(:last-child) {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tray-item-row.is-removing {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+
+    .tray-item-thumb {
+      width: 50px;
+      height: 50px;
+      min-width: 50px;
+      min-height: 50px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tray-item-thumb.muted {
+      background: var(--surface-2);
+      color: var(--muted);
+    }
+
+    .tray-item-thumb svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .tray-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .tray-item-name {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tray-item-row.is-sold-out .tray-item-name {
+      color: var(--muted);
+    }
+
+    .tray-item-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .tray-item-price {
+      font-family: var(--font-data);
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+
+    .tray-item-row.is-sold-out .tray-item-price {
+      color: var(--muted);
+    }
+
+    .tray-item-qty {
+      font-family: var(--font-body);
+      color: var(--muted);
+    }
+
+    .tray-item-soldout-label {
+      font-family: var(--font-body);
+      font-weight: 500;
+      color: var(--danger);
+      font-size: 11.5px;
+    }
+
+    /* Stepper */
+    .stepper {
+      display: flex;
+      align-items: center;
+      background: var(--surface-2);
+      border-radius: 9999px;
+      padding: 3px;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .stepper-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 9999px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.15s ease;
+    }
+
+    .stepper-btn:active {
+      transform: scale(0.9);
+    }
+
+    .stepper-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .stepper-minus {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: 0 1px 2px rgba(11, 18, 32, 0.08);
+    }
+
+    .stepper-plus {
+      background: var(--ink);
+      color: #FFFFFF;
+    }
+
+    .stepper-btn svg {
+      width: 12px;
+      height: 12px;
+      stroke-width: 2.4;
+    }
+
+    .stepper-val {
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      width: 22px;
+      text-align: center;
+    }
+
+    /* Remove Button */
+    .btn-remove {
+      background: var(--surface-2);
+      color: var(--ink-2);
+      border: none;
+      border-radius: 9999px;
+      padding: 8px 14px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease, transform 0.1s ease, color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-remove:hover {
+      background-color: #E2E8F0;
+      color: var(--danger);
+    }
+
+    .btn-remove:active {
+      transform: scale(0.95);
+    }
+
+    .btn-remove:focus-visible {
+      outline: 2px solid var(--danger);
+      outline-offset: 2px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .stat-tile-save {
+      background: var(--lime);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-label-save {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      color: var(--lime-dark);
+      text-transform: uppercase;
+    }
+
+    .stat-value-save {
+      font-family: var(--font-data);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .stat-note-save {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--lime-dark);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .stat-tile-eta {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-label-eta {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .stat-value-eta {
+      font-family: var(--font-body);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      line-height: 1.2;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .stat-value-eta span {
+      font-family: var(--font-data);
+    }
+
+    .stat-note-eta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background: var(--ink);
+      border-radius: 22px;
+      padding: 18px 20px;
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 4px 16px rgba(17, 21, 27, 0.12);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+    }
+
+    .summary-row .label {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .summary-row .value {
+      font-family: var(--font-data);
+      font-weight: 500;
+      color: #FFFFFF;
+    }
+
+    .summary-row.discount .value {
+      color: #FFFFFF;
+    }
+
+    .summary-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+      margin: 2px 0;
+    }
+
+    .summary-row.total {
+      align-items: baseline;
+    }
+
+    .summary-row.total .label {
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .summary-row.total .value {
+      font-family: var(--font-data);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--lime);
+      letter-spacing: -0.3px;
+    }
+
+    /* Checkout CTA */
+    .checkout-btn {
+      width: 100%;
+      background: var(--surface-2);
+      border: none;
+      border-radius: 18px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: not-allowed;
+      transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+      color: var(--muted);
+    }
+
+    .checkout-btn.ready {
+      background: var(--accent);
+      color: #FFFFFF;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(11, 107, 77, 0.28);
+    }
+
+    .checkout-btn.ready:hover {
+      background: #095940;
+    }
+
+    .checkout-btn.ready:active {
+      transform: scale(0.98);
+    }
+
+    .checkout-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-body);
+      font-size: 14.5px;
+      font-weight: 600;
+    }
+
+    .checkout-btn.ready .checkout-btn-left {
+      color: #FFFFFF;
+    }
+
+    .checkout-btn-left svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .checkout-btn-right svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+
+    /* Checkout Note */
+    .checkout-note {
+      font-family: var(--font-body);
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: var(--muted);
+      text-align: left;
+      padding: 0 4px;
+    }
+
+    /* Tab Bar Wrap: Floating Pill Navigation */
+    .tab-bar-wrap {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      padding: 14px 16px 12px 16px;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    @media (min-width: 481px) {
+      .tab-bar-wrap {
+        position: sticky;
+        bottom: 0;
+        margin-top: -82px;
+      }
+    }
+
+    .tab-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface);
+      border-radius: 9999px;
+      padding: 6px 10px;
+      box-shadow: var(--shadow-tab);
+      pointer-events: auto;
+      border: 1px solid rgba(226, 231, 236, 0.6);
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      width: 64px;
+      height: 48px;
+      border-radius: 9999px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+      position: relative;
+    }
+
+    .tab-item:hover {
+      color: var(--ink);
+    }
+
+    .tab-item.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .tab-item svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .tab-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .tab-item.active .tab-label {
+      font-weight: 600;
+    }
+
+    .tab-item:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+
+    .tab-badge {
+      position: absolute;
+      top: 6px;
+      right: 18%;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-family: var(--font-data);
+      font-size: 10px;
+      font-weight: 700;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid #FFFFFF;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--ink);
+      color: #FFFFFF;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(11, 18, 32, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="viewport">
+    <main class="phone-frame" role="region" aria-label="Vinix Canteen Food Tray">
+
+      <!-- Status Bar -->
+      <header class="status-bar" aria-label="System status">
+        <time class="status-time" id="status-time">9:41</time>
+        <div class="status-icons" aria-hidden="true">
+          <!-- Signal Icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <rect x="2" y="16" width="3" height="5" rx="1"/>
+            <rect x="7" y="12" width="3" height="9" rx="1"/>
+            <rect x="12" y="8" width="3" height="13" rx="1"/>
+            <rect x="17" y="4" width="3" height="17" rx="1"/>
+          </svg>
+          <!-- Wifi Icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+            <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            <circle cx="12" cy="20" r="1" fill="currentColor"/>
+          </svg>
+          <!-- Battery Icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="18" height="12" rx="3"/>
+            <rect x="4" y="8.5" width="12" height="7" rx="1.5" fill="currentColor" stroke="none"/>
+            <path d="M22 11v2"/>
+          </svg>
+        </div>
+      </header>
+
+      <!-- App Header -->
+      <div class="app-header">
+        <div class="header-left">
+          <a href="index.html" class="icon-btn" aria-label="Back to stall menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </a>
+          <div class="header-titles">
+            <h1 class="screen-title">Your Tray</h1>
+            <p class="screen-subtitle" id="tray-subtitle">Warung Bu Sri · 3 items</p>
+          </div>
+        </div>
+
+        <button type="button" class="icon-btn" id="btn-clear-tray" aria-label="Clear all items in tray">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"/>
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+            <line x1="10" y1="11" x2="10" y2="17"/>
+            <line x1="14" y1="11" x2="14" y2="17"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="content-area">
+
+        <!-- Stock Alert Banner -->
+        <aside class="alert-banner" id="stock-alert" role="alert">
+          <div class="alert-icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="alert-text-group">
+            <div class="alert-title">1 item just sold out</div>
+            <div class="alert-desc">Pisang Goreng is unavailable right now.</div>
+          </div>
+        </aside>
+
+        <!-- Tray Items List -->
+        <section class="tray-items-card" aria-label="Items in your tray">
+
+          <!-- Item 1: Nasi Ayam Geprek -->
+          <article class="tray-item-row" id="item-geprek" data-price="18000" data-qty="1">
+            <div class="tray-item-thumb" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8Z"/>
+                <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
+                <path d="m2.1 21.8 6.4-6.3"/>
+                <path d="m19 5-7 7"/>
+              </svg>
+            </div>
+            <div class="tray-item-info">
+              <h3 class="tray-item-name">Nasi Ayam Geprek</h3>
+              <div class="tray-item-meta">
+                <span class="tray-item-price">Rp18.000</span>
+                <span class="tray-item-qty" id="qty-label-geprek">× 1</span>
+              </div>
+            </div>
+            <div class="stepper" aria-label="Quantity for Nasi Ayam Geprek">
+              <button type="button" class="stepper-btn stepper-minus" data-target="geprek" data-action="dec" aria-label="Decrease Nasi Ayam Geprek quantity">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14" stroke-linecap="round"/></svg>
+              </button>
+              <span class="stepper-val" id="val-geprek">1</span>
+              <button type="button" class="stepper-btn stepper-plus" data-target="geprek" data-action="inc" aria-label="Increase Nasi Ayam Geprek quantity">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Item 2: Es Teh Manis -->
+          <article class="tray-item-row" id="item-esteh" data-price="4000" data-qty="1">
+            <div class="tray-item-thumb" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                <line x1="6" y1="2" x2="6" y2="4"/>
+                <line x1="10" y1="2" x2="10" y2="4"/>
+                <line x1="14" y1="2" x2="14" y2="4"/>
+              </svg>
+            </div>
+            <div class="tray-item-info">
+              <h3 class="tray-item-name">Es Teh Manis</h3>
+              <div class="tray-item-meta">
+                <span class="tray-item-price">Rp4.000</span>
+                <span class="tray-item-qty" id="qty-label-esteh">× 1</span>
+              </div>
+            </div>
+            <div class="stepper" aria-label="Quantity for Es Teh Manis">
+              <button type="button" class="stepper-btn stepper-minus" data-target="esteh" data-action="dec" aria-label="Decrease Es Teh Manis quantity">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14" stroke-linecap="round"/></svg>
+              </button>
+              <span class="stepper-val" id="val-esteh">1</span>
+              <button type="button" class="stepper-btn stepper-plus" data-target="esteh" data-action="inc" aria-label="Increase Es Teh Manis quantity">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Item 3: Pisang Goreng (Sold Out) -->
+          <article class="tray-item-row is-sold-out" id="item-pisang" data-price="6000" data-qty="1" data-soldout="true">
+            <div class="tray-item-thumb muted" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+                <path d="M8.5 8.5v.01"/>
+                <path d="M16 15.5v.01"/>
+                <path d="M12 12v.01"/>
+                <path d="M11 17v.01"/>
+                <path d="M7 14v.01"/>
+              </svg>
+            </div>
+            <div class="tray-item-info">
+              <h3 class="tray-item-name">Pisang Goreng</h3>
+              <div class="tray-item-meta">
+                <span class="tray-item-price">Rp6.000</span>
+                <span class="tray-item-soldout-label">Sold out</span>
+              </div>
+            </div>
+            <button type="button" class="btn-remove" id="btn-remove-pisang" aria-label="Remove sold out Pisang Goreng from tray">
+              Remove
+            </button>
+          </article>
+
+        </section>
+
+        <!-- Stats Grid: Savings Tile & ETA Tile -->
+        <section class="stats-grid" aria-label="Tray savings and estimated readiness">
+          <div class="stat-tile-save">
+            <span class="stat-label-save">YOU SAVE</span>
+            <div class="stat-value-save" id="save-display">Rp2.000</div>
+            <span class="stat-note-save">Student discount 10%</span>
+          </div>
+
+          <div class="stat-tile-eta">
+            <span class="stat-label-eta">EST. READY</span>
+            <div class="stat-value-eta">
+              <span>~8</span> min
+            </div>
+            <span class="stat-note-eta">After payment clears</span>
+          </div>
+        </section>
+
+        <!-- Summary Card -->
+        <section class="summary-card" aria-label="Order summary breakdown">
+          <div class="summary-row">
+            <span class="label">Subtotal</span>
+            <span class="value" id="subtotal-display">Rp22.000</span>
+          </div>
+          <div class="summary-row discount">
+            <span class="label">Student discount</span>
+            <span class="value" id="discount-display">− Rp2.000</span>
+          </div>
+          <div class="summary-divider" role="separator"></div>
+          <div class="summary-row total">
+            <span class="label">Total</span>
+            <span class="value" id="total-display">Rp20.000</span>
+          </div>
+        </section>
+
+        <!-- Checkout CTA Button -->
+        <button type="button" class="checkout-btn" id="btn-checkout" disabled aria-label="Pay via QRIS or E-Wallet. Unavailable while sold-out items are in tray.">
+          <div class="checkout-btn-left">
+            <!-- QR Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="5" height="5" x="3" y="3" rx="1"/>
+              <rect width="5" height="5" x="16" y="3" rx="1"/>
+              <rect width="5" height="5" x="3" y="16" rx="1"/>
+              <path d="M21 16v3a2 2 0 0 1-2 2h-3"/>
+              <path d="M21 21v.01"/>
+              <path d="M12 7v3a2 2 0 0 1-2 2H7"/>
+              <path d="M3 12h.01"/>
+              <path d="M12 3h.01"/>
+              <path d="M12 16v.01"/>
+              <path d="M16 12h1"/>
+              <path d="M21 12v.01"/>
+              <path d="M12 21v-1"/>
+            </svg>
+            <span>Pay via QRIS / E-Wallet</span>
+          </div>
+          <div class="checkout-btn-right">
+            <!-- Lock / Arrow Icon -->
+            <svg id="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+        </button>
+
+        <!-- Informational Note -->
+        <p class="checkout-note" id="checkout-note">
+          Remove the sold-out item to continue. Checkout locks your items for 5:00.
+        </p>
+
+      </div>
+
+      <!-- Floating Bottom Tab Navigation -->
+      <footer class="tab-bar-wrap" aria-label="App Navigation">
+        <nav class="tab-bar">
+          <!-- Menu Tab -->
+          <a href="index.html" class="tab-item" aria-label="Go to menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2v20"/>
+              <path d="M6 2v20"/>
+              <path d="M2 7h20"/>
+              <path d="M14 12v5"/>
+              <path d="M10 12v5"/>
+            </svg>
+            <span class="tab-label">Menu</span>
+          </a>
+
+          <!-- Tray Tab (Active) -->
+          <a href="tray.html" class="tab-item active" aria-current="page" aria-label="View tray">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+              <path d="M3 6h18"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span class="tab-label">Tray</span>
+            <span class="tab-badge" id="bottom-tab-badge">3</span>
+          </a>
+
+          <!-- Orders Tab -->
+          <button type="button" class="tab-item" id="tab-orders" aria-label="View orders">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <path d="M14 2v6h6"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <line x1="10" y1="9" x2="8" y2="9"/>
+            </svg>
+            <span class="tab-label">Orders</span>
+          </button>
+
+          <!-- Profile Tab -->
+          <button type="button" class="tab-item" id="tab-profile" aria-label="View profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="tab-label">Profile</span>
+          </button>
+        </nav>
+      </footer>
+
+      <!-- Toast Feedback -->
+      <aside class="toast" id="toast" role="status" aria-live="polite">
+        <span id="toast-text">Notice</span>
+      </aside>
+
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // State
+      const items = {
+        geprek: { name: 'Nasi Ayam Geprek', price: 18000, qty: 1, soldOut: false },
+        esteh: { name: 'Es Teh Manis', price: 4000, qty: 1, soldOut: false },
+        pisang: { name: 'Pisang Goreng', price: 6000, qty: 1, soldOut: true }
+      };
+
+      // Elements
+      const stockAlert = document.getElementById('stock-alert');
+      const itemPisangRow = document.getElementById('item-pisang');
+      const btnRemovePisang = document.getElementById('btn-remove-pisang');
+      const btnCheckout = document.getElementById('btn-checkout');
+      const ctaIcon = document.getElementById('cta-icon');
+      const checkoutNote = document.getElementById('checkout-note');
+      const subtotalDisplay = document.getElementById('subtotal-display');
+      const discountDisplay = document.getElementById('discount-display');
+      const totalDisplay = document.getElementById('total-display');
+      const saveDisplay = document.getElementById('save-display');
+      const traySubtitle = document.getElementById('tray-subtitle');
+      const bottomTabBadge = document.getElementById('bottom-tab-badge');
+      const btnClearTray = document.getElementById('btn-clear-tray');
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+
+      function formatIDR(amount) {
+        return 'Rp' + amount.toLocaleString('id-ID');
+      }
+
+      function showToast(msg) {
+        toastText.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2200);
+      }
+
+      function recalculate() {
+        let subtotal = 0;
+        let totalItems = 0;
+        let hasSoldOut = false;
+
+        for (const key in items) {
+          const item = items[key];
+          if (item) {
+            totalItems += item.qty;
+            if (item.soldOut) {
+              hasSoldOut = true;
+            } else {
+              subtotal += item.price * item.qty;
+            }
+          }
+        }
+
+        // 10% student discount on active items
+        const discount = Math.round(subtotal * 0.1);
+        const total = Math.max(0, subtotal - discount);
+
+        // Update displays
+        subtotalDisplay.textContent = formatIDR(subtotal);
+        discountDisplay.textContent = '− ' + formatIDR(discount);
+        totalDisplay.textContent = formatIDR(total);
+        saveDisplay.textContent = formatIDR(discount);
+        traySubtitle.textContent = `Warung Bu Sri · ${totalItems} item${totalItems === 1 ? '' : 's'}`;
+        bottomTabBadge.textContent = totalItems;
+        bottomTabBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+
+        // Check if any sold-out item exists
+        if (hasSoldOut) {
+          stockAlert.classList.remove('hidden');
+          btnCheckout.disabled = true;
+          btnCheckout.classList.remove('ready');
+          ctaIcon.innerHTML = `
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          `;
+          btnCheckout.setAttribute('aria-label', 'Pay via QRIS or E-Wallet. Unavailable while sold-out items are in tray.');
+          checkoutNote.textContent = 'Remove the sold-out item to continue. Checkout locks your items for 5:00.';
+        } else {
+          stockAlert.classList.add('hidden');
+          btnCheckout.disabled = false;
+          btnCheckout.classList.add('ready');
+          ctaIcon.innerHTML = `
+            <path d="m9 18 6-6-6-6"/>
+          `;
+          btnCheckout.setAttribute('aria-label', 'Pay via QRIS or E-Wallet. Total ' + formatIDR(total));
+          checkoutNote.textContent = 'Checkout locks your items for 5:00 so another student cannot take them.';
+        }
+      }
+
+      // Handle stepper clicks
+      document.querySelectorAll('.stepper-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const key = this.getAttribute('data-target');
+          const action = this.getAttribute('data-action');
+          if (!items[key]) return;
+
+          if (action === 'inc') {
+            if (items[key].qty < 10) {
+              items[key].qty++;
+            }
+          } else if (action === 'dec') {
+            if (items[key].qty > 1) {
+              items[key].qty--;
+            }
+          }
+
+          document.getElementById(`val-${key}`).textContent = items[key].qty;
+          document.getElementById(`qty-label-${key}`).textContent = `× ${items[key].qty}`;
+          recalculate();
+        });
+      });
+
+      // Handle Remove Pisang Goreng
+      if (btnRemovePisang) {
+        btnRemovePisang.addEventListener('click', function () {
+          itemPisangRow.classList.add('is-removing');
+          showToast('Pisang Goreng removed from tray');
+          setTimeout(() => {
+            itemPisangRow.remove();
+            delete items.pisang;
+            recalculate();
+          }, 200);
+        });
+      }
+
+      // Handle Checkout CTA
+      btnCheckout.addEventListener('click', function () {
+        if (btnCheckout.disabled) return;
+        showToast('Initiating QRIS payment session...');
+      });
+
+      // Clear tray
+      if (btnClearTray) {
+        btnClearTray.addEventListener('click', function () {
+          if (confirm('Clear all items from your tray?')) {
+            document.querySelectorAll('.tray-item-row').forEach(row => row.remove());
+            for (const key in items) delete items[key];
+            recalculate();
+            showToast('Tray cleared');
+          }
+        });
+      }
+
+      // Initial compute
+      recalculate();
+    })();
+  </script>
+</body>
+</html>

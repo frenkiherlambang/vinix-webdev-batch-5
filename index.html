@@ -1,1 +1,1565 @@
-<h
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Warung Bu Sri stall menu at Campus Canteen Block B1. Pre-order Nasi Ayam Geprek, Nasi Goreng, and refreshments for quick counter pickup.">
+  <title>Warung Bu Sri · Stall Menu · Vinix Canteen</title>
+
+  <!-- Google Fonts: Geist, Geist Mono, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ground: #E9EDF1;
+      --surface: #FFFFFF;
+      --surface-2: #F3F6F8;
+      --ink: #11151B;
+      --ink-2: #39424D;
+      --muted: #56616D;
+      --line: #E2E7EC;
+      --accent: #0B6B4D;
+      --accent-soft: #D4F2E6;
+      --lime: #D8F25A;
+      --amber: #C47410;
+      --danger: #CF4437;
+
+      --font-head: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-data: 'Geist Mono', monospace;
+
+      --shadow-sm: 0 1px 3px rgba(11, 18, 32, 0.06);
+      --shadow-tab: 0 6px 18px rgba(11, 18, 32, 0.09);
+      --shadow-modal: 0 20px 40px rgba(11, 18, 32, 0.22);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background-color: var(--ground);
+      color: var(--ink);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Screen container wrapper */
+    .app-viewport {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      background-color: #DFE4E9;
+    }
+
+    @media (min-width: 481px) {
+      .app-viewport {
+        padding: 24px 16px 40px;
+      }
+    }
+
+    /* 390px mobile frame: Node D81hX */
+    .stall-screen {
+      width: 100%;
+      max-width: 390px;
+      min-height: 100vh;
+      background-color: var(--ground);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    @media (min-width: 481px) {
+      .stall-screen {
+        min-height: 844px;
+        border-radius: 34px;
+        box-shadow: 0 16px 48px -12px rgba(11, 18, 32, 0.18), 0 0 0 1px rgba(11, 18, 32, 0.06);
+      }
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 52px;
+      padding: 10px 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .status-time {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.2px;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ink);
+    }
+
+    .status-icons svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    /* Header */
+    .app-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 2px 20px 16px 20px;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      min-height: 42px;
+      border-radius: 9999px;
+      background: var(--surface);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .icon-btn:hover {
+      background-color: var(--surface-2);
+    }
+
+    .icon-btn:active {
+      transform: scale(0.94);
+    }
+
+    .icon-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .title-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .title-main {
+      font-family: var(--font-head);
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .title-subtitle {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-dot-open {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #10B981;
+      display: inline-block;
+    }
+
+    /* Content Area */
+    .screen-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 0 20px 100px 20px;
+    }
+
+    /* Search bar reveal */
+    .search-panel {
+      display: none;
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 6px 14px;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+      animation: slideDown 0.2s ease-out forwards;
+    }
+
+    .search-panel.open {
+      display: flex;
+    }
+
+    .search-panel input {
+      border: none;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      font-size: 13px;
+      font-family: var(--font-body);
+      color: var(--ink);
+    }
+
+    .search-panel input::placeholder {
+      color: var(--muted);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Card */
+    .hero-card {
+      position: relative;
+      width: 100%;
+      height: 176px;
+      border-radius: 22px;
+      overflow: hidden;
+      background-color: #20302A;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: var(--shadow-sm);
+      border: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .hero-card:hover .hero-image {
+      transform: scale(1.03);
+    }
+
+    .hero-scrim {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 120px;
+      background: linear-gradient(180deg, rgba(10, 17, 13, 0) 0%, rgba(10, 17, 13, 0.95) 100%);
+      border-radius: 0 0 22px 22px;
+    }
+
+    .hero-content {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      justify-content: flex-end;
+      z-index: 2;
+    }
+
+    .badge-lime {
+      align-self: flex-start;
+      background: var(--lime);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 5px 9px;
+      border-radius: 9999px;
+      line-height: 1;
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      color: #FFFFFF;
+      line-height: 1.2;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-price {
+      font-family: var(--font-data);
+      font-size: 15px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .hero-dot {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+    }
+
+    .hero-note {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    /* Section Head */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: var(--ink);
+    }
+
+    .see-all-btn {
+      background: none;
+      border: none;
+      padding: 4px 6px;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: opacity 0.15s ease;
+    }
+
+    .see-all-btn:hover {
+      opacity: 0.8;
+    }
+
+    .see-all-btn:focus-visible {
+      outline: 2px solid var(--accent);
+    }
+
+    /* Categories Horizontal Bar */
+    .categories-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .categories-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-chip {
+      padding: 9px 15px;
+      border-radius: 9999px;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+      background-color: var(--surface);
+      color: var(--ink-2);
+      box-shadow: var(--shadow-sm);
+      user-select: none;
+    }
+
+    .category-chip:active {
+      transform: scale(0.96);
+    }
+
+    .category-chip:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .category-chip.active {
+      background-color: var(--ink);
+      color: #FFFFFF;
+      font-weight: 600;
+      box-shadow: none;
+    }
+
+    /* Dishes Grid */
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .dish-card {
+      background: var(--surface);
+      border-radius: 18px;
+      padding: 10px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+    }
+
+    .dish-card:hover {
+      box-shadow: 0 4px 12px rgba(11, 18, 32, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .dish-photo-wrap {
+      width: 100%;
+      height: 88px;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: var(--surface-2);
+      position: relative;
+    }
+
+    .dish-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .dish-name {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--ink);
+      min-height: 32px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .dish-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .dish-price {
+      font-family: var(--font-data);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+
+    .btn-add-circle {
+      width: 26px;
+      height: 26px;
+      min-width: 26px;
+      min-height: 26px;
+      border-radius: 9999px;
+      background-color: var(--ink);
+      color: #FFFFFF;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    /* Expand touch target for accessibility */
+    .btn-add-circle::after {
+      content: '';
+      position: absolute;
+      inset: -9px;
+      border-radius: 9999px;
+    }
+
+    .btn-add-circle:hover {
+      background-color: #27303c;
+    }
+
+    .btn-add-circle:active {
+      transform: scale(0.9);
+    }
+
+    .btn-add-circle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-add-circle svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2.5;
+    }
+
+    .btn-add-circle.added {
+      background-color: var(--accent);
+    }
+
+    /* Pickup Info Banner */
+    .pickup-info-card {
+      width: 100%;
+      background: var(--ink);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .pickup-info-card:hover {
+      background-color: #1b212b;
+    }
+
+    .pickup-info-card:active {
+      transform: scale(0.98);
+    }
+
+    .pickup-info-card:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 2px;
+    }
+
+    .pickup-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--lime);
+      flex-shrink: 0;
+    }
+
+    .pickup-icon-box svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .pickup-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .pickup-title {
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .pickup-sub {
+      font-family: var(--font-body);
+      font-size: 11.5px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .pickup-chevron {
+      color: rgba(255, 255, 255, 0.5);
+      flex-shrink: 0;
+    }
+
+    .pickup-chevron svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Tab Bar Wrap: Floating Pill Navigation */
+    .tab-bar-wrap {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      padding: 14px 16px 12px 16px;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    @media (min-width: 481px) {
+      .tab-bar-wrap {
+        position: sticky;
+        bottom: 0;
+        margin-top: -82px;
+        padding: 10px 16px 16px 16px;
+      }
+    }
+
+    .tab-bar {
+      pointer-events: auto;
+      width: 100%;
+      max-width: 358px;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 9999px;
+      box-shadow: var(--shadow-tab);
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .tab-item {
+      flex: 1;
+      height: 100%;
+      border-radius: 9999px;
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .tab-item svg {
+      width: 21px;
+      height: 21px;
+      stroke-width: 2;
+    }
+
+    .tab-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .tab-item:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+
+    .tab-item.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .tab-item.active .tab-label {
+      font-weight: 600;
+    }
+
+    .tab-badge {
+      position: absolute;
+      top: 6px;
+      right: 20%;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-family: var(--font-data);
+      font-size: 10px;
+      font-weight: 700;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 9999px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid #FFFFFF;
+    }
+
+    .tab-badge.visible {
+      display: flex;
+    }
+
+    /* Interactive Tray Sheet Modal */
+    .tray-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 18, 32, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .tray-modal-backdrop.open {
+      display: flex;
+    }
+
+    .tray-modal {
+      width: 100%;
+      max-width: 390px;
+      background: var(--surface);
+      border-radius: 28px 28px 0 0;
+      padding: 20px 20px 28px;
+      box-shadow: var(--shadow-modal);
+      animation: sheetUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .tray-modal-handle {
+      width: 36px;
+      height: 4px;
+      border-radius: 9999px;
+      background: var(--line);
+      margin: 0 auto 16px;
+    }
+
+    .tray-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .tray-modal-title {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .tray-items-container {
+      overflow-y: auto;
+      max-height: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .tray-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--surface-2);
+      border-radius: 12px;
+    }
+
+    .tray-row-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .tray-row-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .tray-row-price {
+      font-family: var(--font-data);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .tray-qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-qty {
+      width: 26px;
+      height: 26px;
+      border-radius: 9999px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .tray-qty-val {
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 16px;
+      text-align: center;
+    }
+
+    .tray-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      margin-bottom: 16px;
+    }
+
+    .tray-total-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .tray-total-val {
+      font-family: var(--font-data);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .btn-checkout {
+      width: 100%;
+      height: 48px;
+      border-radius: 9999px;
+      background: var(--ink);
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-checkout:hover {
+      background: #252e3b;
+    }
+
+    .btn-checkout:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Toast Notification */
+    .toast-pill {
+      position: fixed;
+      top: 68px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--ink);
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      box-shadow: 0 4px 14px rgba(11, 18, 32, 0.16);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      z-index: 90;
+      white-space: nowrap;
+    }
+
+    .toast-pill.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Location Modal Dialog */
+    .modal-dialog {
+      background: var(--surface);
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 340px;
+      width: 90%;
+      margin: auto;
+      box-shadow: var(--shadow-modal);
+      text-align: center;
+    }
+
+    .modal-icon-header {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-viewport">
+    <!-- Node ID: D81hX · 01 · Stall Menu -->
+    <main class="stall-screen" id="stall-menu-screen" role="main">
+
+      <!-- Status Bar (HIN6O) -->
+      <header class="status-bar" aria-label="System status">
+        <time class="status-time" id="status-clock">9:41</time>
+        <div class="status-icons" aria-hidden="true">
+          <!-- Signal Icon (xHXSE) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V4"/>
+          </svg>
+          <!-- Wifi Icon (YUvtN) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/>
+          </svg>
+          <!-- Battery Full Icon (QH3S0) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="16" height="10" x="2" y="7" rx="2" ry="2"/>
+            <line x1="22" x2="22" y1="11" y2="13"/>
+            <line x1="6" x2="6" y1="11" y2="13"/>
+            <line x1="10" x2="10" y1="11" y2="13"/>
+            <line x1="14" x2="14" y1="11" y2="13"/>
+          </svg>
+        </div>
+      </header>
+
+      <!-- App Header (emO2t) -->
+      <section class="app-header">
+        <!-- Back Button (sv2zc) -->
+        <a href="#back" class="icon-btn" id="btn-back" aria-label="Go back to canteens list">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </a>
+
+        <!-- Title Group (Ru08Q) -->
+        <div class="title-group">
+          <h1 class="title-main" id="stall-title">Warung Bu Sri</h1>
+          <p class="title-subtitle">
+            <span>Campus Canteen · Block B1</span>
+            <span>·</span>
+            <span style="display:inline-flex; align-items:center; gap:3px;">
+              <span class="status-dot-open" aria-hidden="true"></span> Open
+            </span>
+          </p>
+        </div>
+
+        <!-- Search Action Button (IIGc2) -->
+        <button type="button" class="icon-btn" id="btn-search-toggle" aria-label="Search menu items" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+        </button>
+      </section>
+
+      <!-- Content Container (a5lYv) -->
+      <div class="screen-content">
+
+        <!-- Search Panel Input -->
+        <div class="search-panel" id="search-bar" role="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="var(--muted)">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input type="text" id="dish-search-input" placeholder="Search dish or beverage..." aria-label="Search menu">
+        </div>
+
+        <!-- Hero Card: Today's Special (osL49) -->
+        <button type="button" class="hero-card" id="hero-special-card" aria-label="Today's Special: Nasi Ayam Geprek, Rp18.000, Ready in 8 minutes. Tap to add to tray.">
+          <img class="hero-image" src="https://images.unsplash.com/photo-1676471984382-a6dd86b507e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTIxMTQxNDR8&ixlib=rb-4.1.0&q=80&w=1080" alt="Fresh Nasi Ayam Geprek with sambal and rice" loading="eager">
+          <div class="hero-scrim" aria-hidden="true"></div>
+          <div class="hero-content">
+            <!-- Badge (NDzf5) -->
+            <span class="badge-lime">TODAY'S SPECIAL</span>
+            <!-- Hero Title (Pgnip) -->
+            <h2 class="hero-title">Nasi Ayam Geprek</h2>
+            <!-- Hero Meta (Tn8Ze) -->
+            <div class="hero-meta">
+              <span class="hero-price">Rp18.000</span>
+              <span class="hero-dot" aria-hidden="true">·</span>
+              <span class="hero-note">Ready in 8 min</span>
+            </div>
+          </div>
+        </button>
+
+        <!-- Section Head: Popular now (f2P39) -->
+        <div class="section-head">
+          <h3 class="section-title">Popular now</h3>
+          <button type="button" class="see-all-btn" id="btn-see-all">See all</button>
+        </div>
+
+        <!-- Categories Bar (Iwcwd) -->
+        <nav class="categories-bar" aria-label="Dish categories">
+          <button type="button" class="category-chip active" data-category="all" id="chip-all">All</button>
+          <button type="button" class="category-chip" data-category="rice" id="chip-rice">Rice</button>
+          <button type="button" class="category-chip" data-category="noodles" id="chip-noodles">Noodles</button>
+          <button type="button" class="category-chip" data-category="drinks" id="chip-drinks">Drinks</button>
+        </nav>
+
+        <!-- Dishes Grid: Row 1 & Row 2 (W2tqo & l6gCh1) -->
+        <section class="dish-grid" id="dishes-container" aria-label="Available dishes">
+
+          <!-- Dish 1: Nasi Goreng Spesial (ycOOl) -->
+          <article class="dish-card" data-category="rice" data-name="Nasi Goreng Spesial" data-price="15000">
+            <div class="dish-photo-wrap">
+              <img class="dish-photo" src="https://images.unsplash.com/photo-1780130808973-2cbf58cc91e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTIxMTQxNDR8&ixlib=rb-4.1.0&q=80&w=1080" alt="Nasi Goreng Spesial with egg and crackers" loading="lazy">
+            </div>
+            <h4 class="dish-name">Nasi Goreng Spesial</h4>
+            <div class="dish-price-row">
+              <span class="dish-price">Rp15.000</span>
+              <button type="button" class="btn-add-circle" data-id="dish-1" aria-label="Add Nasi Goreng Spesial to tray">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 5v14M5 12h14" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Dish 2: Mie Ayam Bakso (IIcnX) -->
+          <article class="dish-card" data-category="noodles" data-name="Mie Ayam Bakso" data-price="12000">
+            <div class="dish-photo-wrap">
+              <img class="dish-photo" src="https://images.unsplash.com/photo-1791408842348-682ae1063988?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTIxMTQxNDR8&ixlib=rb-4.1.0&q=80&w=1080" alt="Mie Ayam Bakso savory noodles with meatballs" loading="lazy">
+            </div>
+            <h4 class="dish-name">Mie Ayam Bakso</h4>
+            <div class="dish-price-row">
+              <span class="dish-price">Rp12.000</span>
+              <button type="button" class="btn-add-circle" data-id="dish-2" aria-label="Add Mie Ayam Bakso to tray">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 5v14M5 12h14" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Dish 3: Es Teh Manis (H8bfk) -->
+          <article class="dish-card" data-category="drinks" data-name="Es Teh Manis" data-price="4000">
+            <div class="dish-photo-wrap">
+              <img class="dish-photo" src="https://images.unsplash.com/photo-1656936637945-571e3f0893f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTIxMTQxNDR8&ixlib=rb-4.1.0&q=80&w=1080" alt="Chilled Indonesian sweet iced tea" loading="lazy">
+            </div>
+            <h4 class="dish-name">Es Teh Manis</h4>
+            <div class="dish-price-row">
+              <span class="dish-price">Rp4.000</span>
+              <button type="button" class="btn-add-circle" data-id="dish-3" aria-label="Add Es Teh Manis to tray">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 5v14M5 12h14" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Dish 4: Pisang Goreng (mspZ5) -->
+          <article class="dish-card" data-category="rice" data-name="Pisang Goreng" data-price="6000">
+            <div class="dish-photo-wrap">
+              <img class="dish-photo" src="https://images.unsplash.com/photo-1772352843188-fdc07f6b1b81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTIxMTQxNDR8&ixlib=rb-4.1.0&q=80&w=1080" alt="Crispy golden fried banana snacks" loading="lazy">
+            </div>
+            <h4 class="dish-name">Pisang Goreng</h4>
+            <div class="dish-price-row">
+              <span class="dish-price">Rp6.000</span>
+              <button type="button" class="btn-add-circle" data-id="dish-4" aria-label="Add Pisang Goreng to tray">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 5v14M5 12h14" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </article>
+
+        </section>
+
+        <!-- Pickup Info Banner (m3h4v) -->
+        <button type="button" class="pickup-info-card" id="btn-pickup-details" aria-label="Pickup location: Counter 3, 2 min walk from Block B1. Tap for directions.">
+          <div class="pickup-icon-box" aria-hidden="true">
+            <!-- Store Icon (CaYSm) -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+              <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
+              <path d="M2 7h20"/>
+              <path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/>
+            </svg>
+          </div>
+          <div class="pickup-text">
+            <span class="pickup-title">Pickup at Counter 3</span>
+            <span class="pickup-sub">2 min walk from Block B1</span>
+          </div>
+          <div class="pickup-chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </button>
+
+      </div>
+
+      <!-- Tab Bar Wrap (zoOdu & Ref B1njr) -->
+      <footer class="tab-bar-wrap" aria-label="App Navigation">
+        <nav class="tab-bar">
+
+          <!-- Menu Tab (gzDBU) -->
+          <button type="button" class="tab-item active" id="tab-menu" aria-label="Menu tab, current page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"/>
+              <path d="M15 2v19"/>
+              <path d="M5 2v5a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V2"/>
+              <path d="M7 9v12"/>
+            </svg>
+            <span class="tab-label">Menu</span>
+          </button>
+
+          <!-- Tray Tab (yDwjS) -->
+          <button type="button" class="tab-item" id="tab-tray" aria-label="Tray tab, view added items">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+              <path d="M3 6h18"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span class="tab-label">Tray</span>
+            <span class="tab-badge" id="tray-count-badge">0</span>
+          </button>
+
+          <!-- Orders Tab (o8hLMo) -->
+          <button type="button" class="tab-item" id="tab-orders" aria-label="Orders tab, view active orders">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/>
+              <path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/>
+            </svg>
+            <span class="tab-label">Orders</span>
+          </button>
+
+          <!-- Profile Tab (YdF5g) -->
+          <a href="login.html" class="tab-item" id="tab-profile" aria-label="Profile tab, sign in or account settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>
+            </svg>
+            <span class="tab-label">Profile</span>
+          </a>
+
+        </nav>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <aside class="toast-pill" id="app-toast" role="status" aria-live="polite">Added to Tray</aside>
+
+  <!-- Tray Sheet Modal -->
+  <div class="tray-modal-backdrop" id="tray-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="tray-modal-title">
+    <div class="tray-modal">
+      <div class="tray-modal-handle"></div>
+      <div class="tray-modal-header">
+        <h3 class="tray-modal-title" id="tray-modal-title">Your Food Tray</h3>
+        <button type="button" class="icon-btn" id="btn-close-tray" aria-label="Close food tray" style="width:32px; height:32px; min-width:32px; min-height:32px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="tray-items-container" id="tray-items-list">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="tray-total-row">
+        <span class="tray-total-label">Subtotal</span>
+        <span class="tray-total-val" id="tray-total-val">Rp0</span>
+      </div>
+
+      <button type="button" class="btn-checkout" id="btn-proceed-checkout">
+        <span>Proceed to QR Payment</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Pickup Info Dialog -->
+  <div class="tray-modal-backdrop" id="pickup-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pickup-modal-title">
+    <div class="modal-dialog">
+      <div class="modal-icon-header">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      <h3 id="pickup-modal-title" style="font-family: var(--font-head); font-size: 18px; margin-bottom: 8px;">Counter 3 Pickup Point</h3>
+      <p style="font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 20px;">
+        Warung Bu Sri counter is located in the Central Food Court, Ground Floor Block B1 (right across the Library entrance). Please show your 3-digit order token upon collection.
+      </p>
+      <button type="button" class="btn-checkout" id="btn-close-pickup">Got it</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // State Management
+      const tray = {};
+
+      const specialItem = {
+        id: 'special-geprek',
+        name: 'Nasi Ayam Geprek',
+        price: 18000
+      };
+
+      // Realtime Clock
+      const clockEl = document.getElementById('status-clock');
+      function updateClock() {
+        const now = new Date();
+        const hrs = now.getHours();
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        if (clockEl) {
+          clockEl.textContent = hrs + ':' + mins;
+        }
+      }
+      updateClock();
+      setInterval(updateClock, 30000);
+
+      // Toast Notification
+      const toastEl = document.getElementById('app-toast');
+      let toastTimer = null;
+      function showToast(text) {
+        if (!toastEl) return;
+        toastEl.textContent = text;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toastEl.classList.remove('show');
+        }, 1800);
+      }
+
+      // Format Rupiah
+      function formatRp(num) {
+        return 'Rp' + num.toLocaleString('id-ID');
+      }
+
+      // Update Tray Badge & View
+      const badgeEl = document.getElementById('tray-count-badge');
+      const trayItemsList = document.getElementById('tray-items-list');
+      const trayTotalVal = document.getElementById('tray-total-val');
+
+      function updateTrayUI() {
+        const keys = Object.keys(tray);
+        let totalCount = 0;
+        let subtotal = 0;
+
+        keys.forEach(function (k) {
+          totalCount += tray[k].qty;
+          subtotal += tray[k].price * tray[k].qty;
+        });
+
+        if (badgeEl) {
+          badgeEl.textContent = totalCount;
+          if (totalCount > 0) {
+            badgeEl.classList.add('visible');
+          } else {
+            badgeEl.classList.remove('visible');
+          }
+        }
+
+        if (trayTotalVal) {
+          trayTotalVal.textContent = formatRp(subtotal);
+        }
+
+        if (trayItemsList) {
+          trayItemsList.innerHTML = '';
+          if (keys.length === 0) {
+            trayItemsList.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:13px; padding:24px 0;">Your tray is currently empty. Add dishes from the menu above.</p>';
+          } else {
+            keys.forEach(function (k) {
+              const item = tray[k];
+              const row = document.createElement('div');
+              row.className = 'tray-row';
+              row.innerHTML = 
+                '<div class="tray-row-info">' +
+                  '<span class="tray-row-name">' + item.name + '</span>' +
+                  '<span class="tray-row-price">' + formatRp(item.price) + '</span>' +
+                '</div>' +
+                '<div class="tray-qty-controls">' +
+                  '<button type="button" class="btn-qty" data-decrease="' + item.id + '" aria-label="Decrease quantity">-</button>' +
+                  '<span class="tray-qty-val">' + item.qty + '</span>' +
+                  '<button type="button" class="btn-qty" data-increase="' + item.id + '" aria-label="Increase quantity">+</button>' +
+                '</div>';
+              trayItemsList.appendChild(row);
+            });
+          }
+        }
+      }
+
+      function addToTray(id, name, price) {
+        if (!tray[id]) {
+          tray[id] = { id: id, name: name, price: price, qty: 1 };
+        } else {
+          tray[id].qty += 1;
+        }
+        updateTrayUI();
+        showToast('Added ' + name + ' to Tray');
+      }
+
+      function decreaseQty(id) {
+        if (tray[id]) {
+          tray[id].qty -= 1;
+          if (tray[id].qty <= 0) {
+            delete tray[id];
+          }
+          updateTrayUI();
+        }
+      }
+
+      // Add button click events on dishes
+      const addBtns = document.querySelectorAll('.btn-add-circle');
+      addBtns.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          const card = btn.closest('.dish-card');
+          const id = btn.getAttribute('data-id');
+          const name = card.getAttribute('data-name');
+          const price = parseInt(card.getAttribute('data-price'), 10);
+
+          addToTray(id, name, price);
+
+          btn.classList.add('added');
+          setTimeout(function () {
+            btn.classList.remove('added');
+          }, 300);
+        });
+      });
+
+      // Special Hero card click adds Today's Special
+      const heroCard = document.getElementById('hero-special-card');
+      if (heroCard) {
+        heroCard.addEventListener('click', function () {
+          addToTray(specialItem.id, specialItem.name, specialItem.price);
+        });
+      }
+
+      // Tray list qty buttons delegate
+      if (trayItemsList) {
+        trayItemsList.addEventListener('click', function (e) {
+          const incBtn = e.target.closest('[data-increase]');
+          if (incBtn) {
+            const id = incBtn.getAttribute('data-increase');
+            if (tray[id]) {
+              addToTray(id, tray[id].name, tray[id].price);
+            }
+            return;
+          }
+
+          const decBtn = e.target.closest('[data-decrease]');
+          if (decBtn) {
+            const id = decBtn.getAttribute('data-decrease');
+            decreaseQty(id);
+          }
+        });
+      }
+
+      // Category filter logic
+      const categoryChips = document.querySelectorAll('.category-chip');
+      const dishCards = document.querySelectorAll('.dish-card');
+
+      categoryChips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          categoryChips.forEach(function (c) { c.classList.remove('active'); });
+          chip.classList.add('active');
+
+          const selectedCat = chip.getAttribute('data-category');
+          filterDishes(selectedCat, dishSearchInput ? dishSearchInput.value : '');
+        });
+      });
+
+      // Search bar toggling
+      const searchToggleBtn = document.getElementById('btn-search-toggle');
+      const searchBar = document.getElementById('search-bar');
+      const dishSearchInput = document.getElementById('dish-search-input');
+
+      if (searchToggleBtn && searchBar) {
+        searchToggleBtn.addEventListener('click', function () {
+          const isOpen = searchBar.classList.toggle('open');
+          searchToggleBtn.setAttribute('aria-expanded', String(isOpen));
+          if (isOpen && dishSearchInput) {
+            dishSearchInput.focus();
+          }
+        });
+      }
+
+      function filterDishes(category, query) {
+        const q = (query || '').toLowerCase().trim();
+        dishCards.forEach(function (card) {
+          const cardCat = card.getAttribute('data-category');
+          const cardName = card.getAttribute('data-name').toLowerCase();
+
+          const catMatches = (category === 'all' || cardCat === category);
+          const queryMatches = !q || cardName.includes(q);
+
+          if (catMatches && queryMatches) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      if (dishSearchInput) {
+        dishSearchInput.addEventListener('input', function (e) {
+          const activeChip = document.querySelector('.category-chip.active');
+          const currentCat = activeChip ? activeChip.getAttribute('data-category') : 'all';
+          filterDishes(currentCat, e.target.value);
+        });
+      }
+
+      // See all button resets filter
+      const seeAllBtn = document.getElementById('btn-see-all');
+      if (seeAllBtn) {
+        seeAllBtn.addEventListener('click', function () {
+          const chipAll = document.getElementById('chip-all');
+          if (chipAll) chipAll.click();
+          if (dishSearchInput) {
+            dishSearchInput.value = '';
+          }
+          filterDishes('all', '');
+          showToast('Showing all menu items');
+        });
+      }
+
+      // Tray Modal Logic
+      const trayModalBackdrop = document.getElementById('tray-modal-backdrop');
+      const tabTrayBtn = document.getElementById('tab-tray');
+      const closeTrayBtn = document.getElementById('btn-close-tray');
+
+      function openTrayModal() {
+        if (trayModalBackdrop) {
+          updateTrayUI();
+          trayModalBackdrop.classList.add('open');
+        }
+      }
+
+      function closeTrayModal() {
+        if (trayModalBackdrop) {
+          trayModalBackdrop.classList.remove('open');
+        }
+      }
+
+      if (tabTrayBtn) {
+        tabTrayBtn.addEventListener('click', openTrayModal);
+      }
+
+      if (closeTrayBtn) {
+        closeTrayBtn.addEventListener('click', closeTrayModal);
+      }
+
+      if (trayModalBackdrop) {
+        trayModalBackdrop.addEventListener('click', function (e) {
+          if (e.target === trayModalBackdrop) {
+            closeTrayModal();
+          }
+        });
+      }
+
+      // Pickup Info Modal
+      const pickupBtn = document.getElementById('btn-pickup-details');
+      const pickupModal = document.getElementById('pickup-modal-backdrop');
+      const closePickupBtn = document.getElementById('btn-close-pickup');
+
+      if (pickupBtn && pickupModal) {
+        pickupBtn.addEventListener('click', function () {
+          pickupModal.classList.add('open');
+        });
+      }
+
+      if (closePickupBtn && pickupModal) {
+        closePickupBtn.addEventListener('click', function () {
+          pickupModal.classList.remove('open');
+        });
+      }
+
+      if (pickupModal) {
+        pickupModal.addEventListener('click', function (e) {
+          if (e.target === pickupModal) {
+            pickupModal.classList.remove('open');
+          }
+        });
+      }
+
+      // Checkout Button Action
+      const checkoutBtn = document.getElementById('btn-proceed-checkout');
+      if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function () {
+          if (Object.keys(tray).length === 0) {
+            showToast('Please select at least 1 item');
+            return;
+          }
+          closeTrayModal();
+          showToast('Order created! Redirecting to QRIS...');
+        });
+      }
+
+      // Orders Tab Demo
+      const ordersTab = document.getElementById('tab-orders');
+      if (ordersTab) {
+        ordersTab.addEventListener('click', function () {
+          showToast('No active orders right now');
+        });
+      }
+
+      // Keyboard modal dismissal with Escape (R-32)
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeTrayModal();
+          if (pickupModal) pickupModal.classList.remove('open');
+        }
+      });
+
+    })();
+  </script>
+
+</body>
+</html>
