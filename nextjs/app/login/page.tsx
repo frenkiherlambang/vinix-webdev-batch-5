@@ -1,18 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { Suspense } from 'react'
-import { Geist, Inter } from 'next/font/google'
 import { SignInPanel } from './sign-in-panel'
-
-const geist = Geist({
-  variable: '--font-geist',
-  subsets: ['latin'],
-})
-
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-})
 
 export const metadata: Metadata = {
   title: 'Sign in · Vinix Canteen',
@@ -21,20 +9,17 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div
-      className={`${geist.variable} ${inter.variable} min-h-dvh bg-paper font-body text-charcoal [color-scheme:light]`}
-    >
+    <div className="app-light min-h-dvh bg-paper font-body text-charcoal">
       <main className="mx-auto flex min-h-dvh w-full max-w-[390px] flex-col px-5 pb-8 pt-6 sm:pt-10">
         <header className="flex items-center gap-3">
-          <Link
-            href="/"
-            aria-label="Vinix Canteen home"
-            className="flex size-[42px] shrink-0 items-center justify-center rounded-full bg-card shadow-[0_1px_3px_rgba(11,18,32,0.06)] transition-colors hover:bg-card-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest-deep"
+          <div
+            aria-hidden="true"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-card shadow-[0_1px_3px_rgba(11,18,32,0.06)]"
           >
             <span className="font-head text-[13px] font-bold tracking-[-0.3px] text-charcoal">
               VC
             </span>
-          </Link>
+          </div>
 
           <div className="min-w-0 flex-1">
             <p className="truncate font-head text-[19px] font-semibold leading-tight tracking-[-0.2px] text-charcoal">
@@ -46,7 +31,7 @@ export default function LoginPage() {
           <details className="relative shrink-0">
             <summary
               aria-label="Sign-in help"
-              className="flex size-[42px] cursor-pointer list-none items-center justify-center rounded-full bg-card text-charcoal shadow-[0_1px_3px_rgba(11,18,32,0.06)] transition-colors hover:bg-card-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest-deep [&::-webkit-details-marker]:hidden"
+              className="flex size-11 cursor-pointer list-none items-center justify-center rounded-full bg-card text-charcoal shadow-[0_1px_3px_rgba(11,18,32,0.06)] transition-colors hover:bg-card-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest-deep [&::-webkit-details-marker]:hidden"
             >
               <HelpCircleIcon />
             </summary>
@@ -54,7 +39,8 @@ export default function LoginPage() {
               <p className="text-xs font-semibold text-charcoal">Signing in</p>
               <p className="mt-1.5 text-xs leading-relaxed text-ink-soft">
                 Use the campus email tied to your canteen orders. If you no longer
-                have access to that inbox, ask the canteen desk to update it.
+                have access to that inbox, create a new account with an email you
+                can open.
               </p>
             </div>
           </details>
@@ -76,11 +62,11 @@ function SignInPanelFallback() {
       <div className="h-9 w-44 rounded-md bg-charcoal/10" />
       <div className="mt-3 h-4 w-full max-w-[320px] rounded bg-charcoal/10" />
       <div className="mt-8 flex flex-col gap-3.5">
-        <div className="h-[52px] rounded-[14px] bg-card" />
-        <div className="h-[52px] rounded-[14px] bg-card" />
+        <div className="h-13 rounded-[14px] bg-card" />
+        <div className="h-13 rounded-[14px] bg-card" />
       </div>
-      <div className="mt-5 h-[52px] rounded-[15px] bg-charcoal/90" />
-      <div className="mt-5 h-[52px] rounded-[15px] bg-card" />
+      <div className="mt-5 h-13 rounded-[15px] bg-charcoal/90" />
+      <div className="mt-5 h-13 rounded-[15px] bg-card" />
     </div>
   )
 }

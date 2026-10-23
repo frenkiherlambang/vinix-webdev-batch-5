@@ -24,6 +24,7 @@
   --color-forest-deep: #0a6b4c;
   --color-mint: #d4f2e6;
   --color-lime-pop: #d8f25a;
+  --color-amber-ink: #c47410;
 }
 
 @theme inline {
@@ -40,4 +41,8 @@ body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.app-light {
+  color-scheme: light;
 }

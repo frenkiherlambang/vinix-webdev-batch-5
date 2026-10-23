@@ -170,7 +170,7 @@ export function SignInPanel() {
   return (
     <div className="flex w-full flex-col gap-5">
       {mode === 'sign-up' ? (
-        <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-lime-pop px-[11px] py-1.5 text-[11px] font-semibold text-charcoal">
+        <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-lime-pop px-2.75 py-1.5 text-[11px] font-semibold text-charcoal">
           <GraduationCapIcon />
           Student account
         </span>
@@ -184,7 +184,7 @@ export function SignInPanel() {
         >
           {mode === 'sign-up' ? 'Create your account' : 'Welcome back'}
         </h1>
-        <p className="text-[13px] leading-[1.5] text-ink-soft">
+        <p className="text-[13px] leading-normal text-ink-soft">
           {mode === 'sign-up'
             ? 'Use your campus email so orders, tokens, and receipts follow you to any device.'
             : 'Sign in to check out, and keep your pickup token with your account.'}
@@ -212,7 +212,7 @@ export function SignInPanel() {
       <form onSubmit={handleEmailSubmit} className="flex flex-col gap-5">
         <div className="flex flex-col gap-3.5">
           {mode === 'sign-up' ? (
-            <div className="flex flex-col gap-[7px]">
+            <div className="flex flex-col gap-1.75">
               <label htmlFor="fullName" className={LABEL_CLASS}>
                 Full name{' '}
                 <span className="font-normal text-fog">(optional)</span>
@@ -228,7 +228,7 @@ export function SignInPanel() {
             </div>
           ) : null}
 
-          <div className="flex flex-col gap-[7px]">
+          <div className="flex flex-col gap-1.75">
             <label htmlFor="email" className={LABEL_CLASS}>
               Campus email
             </label>
@@ -244,7 +244,7 @@ export function SignInPanel() {
             />
           </div>
 
-          <div className="flex flex-col gap-[7px]">
+          <div className="flex flex-col gap-1.75">
             <label htmlFor="password" className={LABEL_CLASS}>
               Password
             </label>
