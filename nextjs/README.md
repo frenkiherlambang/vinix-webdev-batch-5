@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vinix Canteen (Next.js)
 
-## Getting Started
+Campus canteen pre-order app. This package is the Next.js app; the product
+prototype lives in `../proto`.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+cp .env.example .env.local
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Authentication (Supabase + Google + email)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Sign-in uses Supabase Auth. Students can continue with Google or create an
+account with an email and password. The session is kept in cookies by
+`@supabase/ssr`; `proxy.ts` refreshes it on every request and protects app
+routes.
 
-## Learn More
+1. **Create a Supabase project** at [supabase.com](https://supabase.com).
+2. **Copy credentials** from *Project Settings → API* into `.env.local`:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   Older projects expose an **anon key** instead; set
+   `NEXT_PUBLIC_SUPABASE_ANON_KEY` in that case.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Create a Google OAuth client** in Google Cloud Console → *APIs & Services →
+   Credentials → Create credentials → OAuth client ID (Web application)*.
+   Add this authorized redirect URI:
 
-## Deploy on Vercel
+   ```
+   https://<project-ref>.supabase.co/auth/v1/callback
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Enable Google** in the Supabase dashboard → *Authentication → Providers →
+   Google*, and paste the client ID and secret.
+5. **Add redirect URLs** in *Authentication → URL Configuration*:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```
+   http://localhost:3000/auth/callback
+   https://your-production-domain/auth/callback
+   ```
+
+   When the app runs behind a proxy, or the public domain differs from the
+   request origin, set `NEXT_PUBLIC_SITE_URL` in `.env.local` to that domain.
+   It must match one of the URLs above.
+
+6. **Check email sign-up** in *Authentication → Providers → Email*. It is on by
+default. With **Confirm email** enabled, Supabase sends a confirmation link
+that returns to `/auth/callback`; with it disabled, sign-up signs the student
+in right away.
+
+### How the flow works
+
+- `/login` → **Continue with Google** → Supabase → Google → `/auth/callback`,
+  where the code is exchanged for a cookie session.
+- `/login` → email + password → **Sign in** calls `signInWithPassword` in the
+  browser, so the session cookie is set without a redirect.
+- `/login` → **Sign up** calls `signUp` with `emailRedirectTo=/auth/callback`.
+  The student confirms the email, then the callback exchanges the code.
+- `/` is protected by `proxy.ts` (optimistic redirect) and by
+  `getSessionClaims()` (verified token) in the page.
+- Sign out is a Server Action in `app/auth/actions.ts`.
+
+Key files:
+
+| File | Purpose |
+| --- | --- |
+| `lib/supabase/client.ts` | Browser client for Client Components |
+| `lib/supabase/server.ts` | Cookie-bound client for Server Components, Actions, Route Handlers |
+| `lib/supabase/proxy.ts` | Session refresh + route protection |
+| `app/auth/callback/route.ts` | OAuth code exchange |
+| `app/login/page.tsx` | Sign-in screen |
+
+## Scripts
+
+```bash
+pnpm dev      # development server
+pnpm build    # production build
+pnpm start    # production server
+pnpm lint     # eslint
+```

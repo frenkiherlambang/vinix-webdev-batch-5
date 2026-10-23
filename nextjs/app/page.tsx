@@ -1,69 +1,143 @@
-import Image from "next/image";
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
+import { redirect } from 'next/navigation'
+import { getSessionClaims } from '@/lib/supabase/auth'
+import { signOut } from './auth/actions'
+
+export const metadata: Metadata = {
+  title: 'Vinix Canteen',
+  description: 'Campus canteen pre-order and pickup tokens.',
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col px-4 py-6 sm:px-6 sm:py-10">
+      <header className="flex items-center gap-3.5">
+        <span
+          aria-hidden="true"
+          className="flex size-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-strong font-extrabold text-canvas"
+        >
+          VC
+        </span>
+        <div>
+          <p className="text-base font-bold tracking-tight text-white">
+            Vinix Canteen
+          </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.05em] text-muted">
+            Campus pre-order
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </header>
+
+      <div className="flex flex-1 items-center py-10">
+        <Suspense fallback={<SessionCardFallback />}>
+          <SessionCard />
+        </Suspense>
+      </div>
+    </main>
+  )
+}
+
+async function SessionCard() {
+  const claims = await getSessionClaims()
+
+  if (!claims) {
+    redirect('/login')
+  }
+
+  const email = claims.email ?? 'your account'
+  const metadata = claims.user_metadata ?? {}
+  const appMetadata = claims.app_metadata ?? {}
+  const provider =
+    typeof appMetadata.provider === 'string' ? appMetadata.provider : null
+  const signInMethod =
+    provider === 'google' ? 'Google' : provider === 'email' ? 'Email' : 'Email or Google'
+  const fullName =
+    typeof metadata.full_name === 'string'
+      ? metadata.full_name
+      : typeof metadata.name === 'string'
+        ? metadata.name
+        : null
+  const displayName = fullName ?? email
+  const initials = getInitials(displayName)
+
+  return (
+    <section
+      aria-labelledby="session-heading"
+      className="w-full rounded-3xl border border-white/10 bg-surface p-6 shadow-[0_20px_45px_-15px_rgba(0,0,0,0.7)] sm:p-10"
+    >
+      <div className="flex flex-wrap items-center gap-4">
+        <span
+          aria-hidden="true"
+          className="flex size-14 items-center justify-center rounded-2xl bg-brand/15 text-lg font-bold text-brand"
+        >
+          {initials}
+        </span>
+        <div className="min-w-0">
+          <h1
+            id="session-heading"
+            className="truncate text-2xl font-extrabold tracking-tight text-white"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {displayName}
+          </h1>
+          <p className="truncate text-sm text-muted">{email}</p>
         </div>
-      </main>
+      </div>
+
+      <dl className="mt-8 divide-y divide-white/10 border-y border-white/10 text-sm">
+        <div className="flex items-center justify-between gap-4 py-3.5">
+          <dt className="text-muted">Sign-in method</dt>
+          <dd className="font-medium text-ink">{signInMethod}</dd>
+        </div>
+        <div className="flex items-center justify-between gap-4 py-3.5">
+          <dt className="text-muted">Session status</dt>
+          <dd className="flex items-center gap-2 font-medium text-ink">
+            <span aria-hidden="true" className="size-2 rounded-full bg-accent" />
+            Verified
+          </dd>
+        </div>
+      </dl>
+
+      <form action={signOut} className="mt-8">
+        <button
+          type="submit"
+          className="flex h-11 items-center justify-center rounded-xl border border-white/15 px-5 text-sm font-semibold text-ink transition-colors hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          Sign out
+        </button>
+      </form>
+    </section>
+  )
+}
+
+function SessionCardFallback() {
+  return (
+    <div
+      aria-hidden="true"
+      className="w-full rounded-3xl border border-white/10 bg-surface p-6 sm:p-10"
+    >
+      <div className="flex items-center gap-4">
+        <div className="size-14 rounded-2xl bg-white/5" />
+        <div className="space-y-2">
+          <div className="h-6 w-40 rounded bg-white/5" />
+          <div className="h-4 w-56 rounded bg-white/5" />
+        </div>
+      </div>
+      <div className="mt-8 h-24 rounded-xl bg-white/5" />
     </div>
-  );
+  )
+}
+
+function getInitials(name: string) {
+  const words = name
+    .replace(/@.*$/, '')
+    .split(/[\s._-]+/)
+    .filter(Boolean)
+
+  if (words.length === 0) return 'VC'
+
+  const first = words[0]?.[0] ?? ''
+  const second = words.length > 1 ? (words[words.length - 1]?.[0] ?? '') : ''
+
+  return `${first}${second}`.toUpperCase()
 }
